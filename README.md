@@ -9,7 +9,7 @@
 - 写了个贼拉简单的shell 省的好几步去操作node、phantom了
 
 ### 执行方式：
-- >直接./run  https://www.baidu.com就行了
+- >直接./run  https://www.baidu.com 就行了
 - >确保环境上有node、phantom、wget这三个东西
 
 #### 总结
