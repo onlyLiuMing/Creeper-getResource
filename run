@@ -1,0 +1,3 @@
+#!/bin/bash
+phantomjs ./getLink.js $1 
+node getRe.js
