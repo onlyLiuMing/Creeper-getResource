@@ -2,12 +2,14 @@ const fs = require('fs');
 const {URL} = require('url');
 const {spawnSync} = require('child_process');
 
+const mkdirFloder = require('./mkdirR');
+
 const maxWait = 10000;
 const resourceWait = 200;
 var waitCloseTimer;
 
 // 清理temps文件夹
-deleteFolderRecursive('./temps');
+deleteFolderRecursive('./temp');
 // 清洗数据
 var URL_LIST = clearData('./links/links.txt');
 // console.log(URL_LIST);
@@ -21,8 +23,9 @@ URL_LIST.forEach((item, index, array) => {
   let _filename = path.slice(path.lastIndexOf('/') + 1);
   let _dirpath = path.slice(0, path.lastIndexOf('/'));
 
-  // 创建文件夹路径 mkdirFloder(`./temp/${hostname}${_dirpath}`); console.log(urlData);
-  spawnSync('wget', [href, `-Ptemps/${hostname}${_dirpath}`]);
+  // 创建文件夹路径
+  mkdirFloder(`./temp/${hostname}${_dirpath}`);
+  spawnSync('wget', [href, `-Otemp/${hostname}${_dirpath}/${_filename}`]);
   if (array.length - 1 === index) {
     close();
   }

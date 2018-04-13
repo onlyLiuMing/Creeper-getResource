@@ -28,11 +28,12 @@ var close = function () {
 		phantom.exit();
 }
 
+// 清理存储文件
+fs.write(path, '', 'w');
+
 page.onLoadStarted = function () {
 		// 记录开始请求的时间
 		startTime = new Date().getTime();
-		// 清理存储文件
-		fs.write(path, '', 'w');
 }
 
 page.onLoadFinished = function () {
