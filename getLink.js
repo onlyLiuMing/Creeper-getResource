@@ -52,13 +52,12 @@ page.viewportSize = {
 // 页面请求资源
 page.onResourceRequested = function (requestData, networkRequest) {
 		resourceCount++;
-		// console.log(requestData.url);
 		fs.write(path, requestData.url + '\n', 'a');
 };
 // 页面收到资源
-page.onResourceRecived = function (res) {
+page.onResourceReceived = function (res) {
 		if (res.stage !== 'end') {
-				return;
+				return false;
 		}
 		resourceCount--;
 		if (resourceCount === 0) {

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# 这里的getlink-crl.js文件需要先进行开启chrome调试端口为9222，才能运行
+
+node ./getLink-cri.js $1 
+node getRe.js

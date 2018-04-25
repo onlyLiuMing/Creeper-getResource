@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# 这里直接使用的chrome的headless模式，并不能进行network访问时文件的抓取，不过可以完整模拟用户行为
+
+node ./getLink-puppeteer.js $1 
+node getRe.js
