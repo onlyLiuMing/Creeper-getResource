@@ -1,4 +1,5 @@
 /node_modules/
+/temp/
 yarn-error.log*
 yarn-debugger.log*
 npm-debugger.log*
