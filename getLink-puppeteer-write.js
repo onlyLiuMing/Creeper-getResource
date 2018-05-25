@@ -7,7 +7,7 @@ const contentTypeList = require('./content-type');
 
 // 定时器，终止进程
 let TIMER;
-let MaxWaitTime = 3000; // 文件写入完成后，最大等待时间
+let MaxWaitTime = 10000; // 文件写入完成后，最大等待时间
 let RequestCount = 0; // 记录请求的个数
 
 // 传入的参数
@@ -18,7 +18,7 @@ deleteFolderRecursive('./temp');
 
 (async() => {
   console.log('打开浏览器');
-  const browser = await puppeteer.launch({headless: false});
+  const browser = await puppeteer.launch({headless: true});
   const page = await browser.newPage();
   // 设置page的仿真参数
   page.emulate({
@@ -27,14 +27,16 @@ deleteFolderRecursive('./temp');
     }
   });
 
-  // 在浏览器中插入语句,使页面滑动,避免懒加载
-  page.evaluate(body => {
-    // 这里的执行环境应该是浏览器
-    var countHeight = 0;
-    var timer = setInterval(function () {
-      window.scrollTo(0, countHeight);
-      countHeight += 100;
-    }, 10);
+  page.on('domcontentloaded', () => {
+    // 在浏览器中插入语句,使页面滑动,避免懒加载
+    page.evaluate(body => {
+      // 这里的执行环境应该是浏览器
+      var countHeight = 0;
+      setInterval(function () {
+        window.scrollTo(0, countHeight);
+        countHeight += 100;
+      }, 10);
+    });
   });
 
   // 设置page的request事件
@@ -57,14 +59,14 @@ deleteFolderRecursive('./temp');
 
           // 创建文件夹（同步）
           Mkdir(`./temp/${_hostname + _dirpath}`);
-          fs.writeFile(`./temp/${_hostname + _dirpath}/index_current.html`, html, err => {
+          fs.writeFile(`./temp/${_hostname + _dirpath}/index.html`, html, err => {
             if (err) {
-              console.log('写入index_current.html产生了错误');
+              console.log('写入index.html产生了错误');
               return
             }
             Close();
-            console.log('index_current.html写入成功');
-          })
+            console.log('index.html写入成功');
+          });
         })
     }
 
@@ -81,7 +83,6 @@ deleteFolderRecursive('./temp');
     let _filename = _pathname.slice(_pathname.lastIndexOf('/') + 1);
     let _dirpath = _pathname.slice(0, _pathname.lastIndexOf('/'));
 
-    console.log(_search);
     // 跳过协议不是http或者https请求的协议，例如base64
     if (!(_protocol == 'https:' || _protocol == 'http:')) 
       return false;
@@ -128,13 +129,13 @@ deleteFolderRecursive('./temp');
       // 创建文件夹（同步）
       Mkdir(`./temp/${_hostname + _dirpath}`);
       buffer.then(html => {
-        fs.writeFile(`./temp/${_hostname + _dirpath}/index.html`, html, err => {
+        fs.writeFile(`./temp/${_hostname + _dirpath}/index_resource.html`, html, err => {
           if (err) {
-            console.log('写入index.html产生了错误');
+            console.log('写入index_resource.html产生了错误');
             return
           }
           Close();
-          console.log('index.html写入成功');
+          console.log('index_resource.html写入成功');
         })
       })
     });
